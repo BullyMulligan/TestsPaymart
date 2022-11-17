@@ -1,3 +1,5 @@
+using NUnit.Framework.Internal;
+using OpenQA.Selenium.Interactions;
 
 namespace TestsPaymart;
 
@@ -9,36 +11,35 @@ public class VendorTests:Overloads
     private readonly By _act = By.XPath("//div[@class='d-flex flex-row-reverse justify-content-between align-items-center custom-file mb-3']");
     private readonly By _btnCancelContract = By.XPath("//button[@class='btn btn-red border-radius-8 w-100']");
     private readonly By _createContract = By.XPath("//a[@title='Договора']");
-    private string _numberBuyer = "998186838";
-    private string _newBuyer = "8909831021";
-   
-    
+     
+    private string smsCode="";
+
     [SetUp]
     protected void Setup()
     {
         driver = new OpenQA.Selenium.Chrome.ChromeDriver();//открываем Хром
-        driver.Navigate().GoToUrl("https://lisa.paymart.uz/ru");//вводим адрес сайта
+        driver.Navigate().GoToUrl("https://sasha.paymart.uz/ru");//вводим адрес сайта
         driver.Manage().Window.Maximize();//открыть в полном окне
+        driver.Manage().Timeouts().ImplicitWait=TimeSpan.FromSeconds(10);
+        driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(20);
+        driver.Manage().Timeouts().AsynchronousJavaScript = TimeSpan.FromSeconds(10);
     }
+    
 
     [Test]
-    public void AuthVendor()
+    public void Auth()
     {
-        
-        SendKeys(_idVendor,idVendor);
-        SendKeys(_passwordVendor,passwordVendor);
-        Click(_authButton);
-        Thread.Sleep(500);
+        AuthVendor(idVendor,passwordVendor);
         TestExpectedActual(_exContracts,"Договора");
-        Screenshot("AuthVendor");
+        Screenshot("Успешная авторизация");
     }
 
     
     [Test]
     public void PrintContractAct()//Проверка распечатки Акта клиента
     {
-        driver.Manage().Timeouts().ImplicitWait.Add(System.TimeSpan.FromSeconds(5));
-        AuthVendor();
+        AuthVendor(idVendor,passwordVendor);
+        driver.FindElements(_listLeftMenu)[3].Click();
         ClickIndexList(_listLeftMenu,1);
         TestExpectedActualNonDigit(_orderStatusTab,"Все договоры ",0);
         TestExpectedActualNonDigit(_orderStatusTab, "На модерации ", 1);
@@ -65,19 +66,17 @@ public class VendorTests:Overloads
     [Test]
     public void CreateContractVendor()
     {
-        driver.Manage().Timeouts().ImplicitWait.Add(System.TimeSpan.FromSeconds(5));
-        AuthVendor();
+        AuthVendor(idVendor,passwordVendor);
         driver.FindElements(_listLeftMenu)[0].Click();
-        TestExpectedActual(_exNewContract,"Новый договор");
         SendKeys(_fieldNumberBuyerNewContract,"123456789");
         Screenshot("CreateContractVendor");
-        Thread.Sleep(700);
+        
         TestExpectedActualNonDigit(_windowUserNotFound,"Пользователь не найден");
         driver.FindElement(_fieldNumberBuyerNewContract).Clear();
-        SendKeys(_fieldNumberBuyerNewContract,"998"+_numberBuyer);
-        Thread.Sleep(700);
+        SendKeys(_fieldNumberBuyerNewContract,"99"+_newBuyer);
+        
         Click(_windowAccertNumber);
-        TestExpectedActualOnlyDigit(_exNumberBuyer,"998"+_numberBuyer);
+        TestExpectedActualOnlyDigit(_exNumberBuyer,"99"+_newBuyer);
         //driver.FindElement(By.XPath("//*[@id='vue-app']/div/div[2]/div/form/div[2]/div[2]/div/div/div[1]/div[1]/div/div/div/div[1]")).Click();
         
     }
@@ -86,27 +85,27 @@ public class VendorTests:Overloads
     [Test]
     public void LanguageSwitchTest()
     {
-        AuthVendor();
+        AuthVendor(idVendor,passwordVendor);
         if (driver.FindElement(_exNewContract).Text =="Договора")
         {
             Click(_languageSwitch);
             Click(_switchLanguage);
             TestExpectedActual(_exNewContract,"Shartnomalar");
-            Screenshot("LanguageSwitchTestUz");
+            Screenshot("Страница на узбекском языке");
         }
         if (driver.FindElement(_exNewContract).Text =="Shartnomalar")
         {
             Click(_languageSwitch);
             Click(_switchLanguage);
             TestExpectedActual(_exNewContract,"Договора");
-            Screenshot("LanguageSwitchTestRus");
+            Screenshot("Страница на русском языке");
         }
         
     }
     [Test]
-    public void InstructionDonloadTest()
+    public void InstructionDownloadTest()
     {
-        AuthVendor();
+        AuthVendor(idVendor,passwordVendor);
         ClickIndexList(_listInstruction,0);
         driver.SwitchTo().Window(driver.WindowHandles[1]);
         DownloadFileToUrl("InstructionDownload.pdf");
@@ -115,7 +114,7 @@ public class VendorTests:Overloads
     [Test]
     public void SideBarTest()
     {
-        AuthVendor();
+        AuthVendor(idVendor,passwordVendor);
         ClickIndexList(_listInstruction,1);
         TestExpectedActual(_listLeftMenu,"Создать договор",0);
         TestExpectedActual(_listLeftMenu,"Договора",1);
@@ -128,42 +127,31 @@ public class VendorTests:Overloads
     [Test]
     public void NegativeAuthPassTest()
     {
-        //проверка некорректного пароля
-        SendKeys(_idVendor,idVendor);
-        Thread.Sleep(200);
-        SendKeys(_passwordVendor,passwordVendor+"1");
-        Click(_authButton);
-        Thread.Sleep(1000);
-        var negativeCheck = driver.FindElement(By.XPath("//div[@class='error']")).Text;
-        Screenshot("NegativeAuthPassTest");
-        Assert.AreEqual(negativeCheck, "Некорректный пароль");
-        
-        
+        var check = AuthVendor(idVendor,"123");
+        TestExpectedActual(check,"Некорректный пароль");
+        Screenshot("Некорректный пароль");
+       
     }
     [Test]
     public void NegativeAuthIDTests()
     {
-        //проверка несуществующего ID
-        SendKeys(_idVendor,idVendor+"2");//добавляем к ID цифру 2
-        Thread.Sleep(200);
-        SendKeys(_passwordVendor,passwordVendor);//и вводим корректный пароль
-        Click(_authButton);
-        Thread.Sleep(500);
-        var negativeCheck = driver.FindElement(By.XPath("//div[@class='error']")).Text;
-        Screenshot("NegativeAuthIDTests");
-        Assert.AreEqual(negativeCheck, "Данный ID не зарегистрирован");
+        var check = AuthVendor("123456789","123");
+        TestExpectedActual(check,"Данный ID не зарегистрирован");
+        Screenshot("Данный ID не зарегистрирован");
+        
     }
     [Test]
     public void CancelContractVendor()//проверяем отмену контракта(для позитивного теста необходим смс-код)
     {
         driver.Manage().Timeouts().ImplicitWait.Add(System.TimeSpan.FromSeconds(5));
-        AuthVendor();
+        AuthVendor(idVendor,passwordVendor);
         
         SendKeys(_fieldFoundContract,_numberFoundContract);
         Click(_btnFoundContract);
         
         TestExpectedActualOnlyDigit(_exСontractBuyer,_numberFoundContract);
         Click(_btnCancelContract);
+        Thread.Sleep(500);
         TestExpectedActual(_exReasonCancel,"Введите причину отмены договора");
         Click(_btnReasonCancelContract);
         
@@ -176,7 +164,6 @@ public class VendorTests:Overloads
         driver.FindElements(By.XPath("//div[@class='mx-auto']//button"))[0].Click();
         Thread.Sleep(500);
         driver.FindElements(By.XPath("//div[@class='mx-auto']//button"))[0].Click();
-        Thread.Sleep(500);
         Screenshot("CancelContractVendor");
         TestExpectedActual(_exSmsCodeCheck,"СМС код неверный");
         Click(_btnBackCancelContract);
@@ -187,32 +174,115 @@ public class VendorTests:Overloads
     [Test]
     public void DebuggerTest()
     {
-        AuthVendor();
+        AuthVendor(idVendor,passwordVendor);
         Click(_btnDebuggerMaximize);
     }
 
+    
+    [Test]
+    public void NewBuyerSolvency()//проверка платежеспособности
+    {
+        AuthVendor(idVendor,passwordVendor);
+        NewBuyerBeforeAddCard(_negativeBuyer);
+        By check = NewBuyerAddCard("8600492934548781","1027");
+        TestExpectedActual(check,"Карта не прошла проверку платежеспособности! Укажите другую карту.");
+        Screenshot("Карта не прошла проверку платежеспособности");
+    }
+    [Test]
+    public void NewBuyerCardNotBuyers()//проверка, является ли покупатель хозяином карты
+    {
+        AuthVendor(idVendor,passwordVendor);
+        NewBuyerBeforeAddCard(_newBuyer);
+        By check = NewBuyerAddCard("8600492934548781","1027");
+        TestExpectedActual(check,"Телефон клиента не совпадает с телефоном смс информирования карты");
+        Screenshot("Карта клиента не привязана к телефоне");
+    }
     [Test]
     public void NewBuyer()
     {
-        AuthVendor();
-        ClickIndexList(_listLeftMenu,3);
-        SendKeys(_fieldNewBuyer,_newBuyer);
-        //ClickIndexList(_btnSendSms,0);
-        driver.FindElements(By.XPath("//div[@id='newBuyer']/div"))[0].FindElements(_btnSendSms)[0].Click();
-        Click(_btnDebuggerMaximize);//открываем дебаггер, если нужно сверить смс-код
-      
-        
-        var smsCode = GetSmsCode(_listDebuggerMessages,0);
-        Click(_btnDebuggerMinimize);
-        SendKeys(_fieldSmsCodeNewBuyer,smsCode);
-        driver.FindElements(By.XPath("//div[@id='newBuyer']/div/div"))[1].FindElements(_btnSendSms)[0].Click();
-        //TestsPaymart.AdminTests.AuthAdmin();
+        AuthVendor(idVendor,passwordVendor);
+        NewBuyerBeforeAddCard("8998186838");
+        NewBuyerAddCard("8600492976703658","1125");
+        NewBuyerAddPhotos();
+        NewBuyerAddContactFace();
     }
-
+    
     [TearDown]
     public void TearDown()
     {
-        driver.Quit();
+        //driver.Quit();
     }
 
+    /* public void AdminAuth()
+     {
+         driver.Navigate().GoToUrl("https://lisa.paymart.uz/ru/login");//вводим адрес сайта
+         driver.Manage().Window.Maximize();//открыть в полном окне
+         driver.Manage().Timeouts().ImplicitWait=TimeSpan.FromSeconds(10);
+         driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(10);
+         SendKeys(_fieldIdAuth,_numberAdmin);
+         SendKeys(_fieldPasswordAuth,_passwordAdmin);
+         Click(_btnAuthAdmin);
+         Thread.Sleep(500);
+         TestExpectedActual(_expEmployees, "Сотрудники");
+     }*/
+
+    public void NewBuyerBeforeAddCard( string phone)
+    {
+        ClickIndexList(_listLeftMenu, 3);
+        SendKeys(_fieldNewBuyer, phone);
+        //ClickIndexList(_btnSendSms,0);
+        driver.FindElements(By.XPath("//div[@id='newBuyer']/div"))[0].FindElements(_btnSendSms)[0].Click();
+        Click(_btnDebuggerMaximize); //открываем дебаггер, если нужно сверить смс-код
+        Thread.Sleep(300);
+
+        var smsCode = GetSmsCode(_listDebuggerMessages, 0);
+        Click(_btnDebuggerMinimize);
+        SendKeys(_fieldSmsCodeNewBuyer, smsCode);
+        driver.FindElements(By.XPath("//div[@id='newBuyer']/div/div"))[1].FindElements(_btnSendSms)[0].Click();
+        
+    }
+
+    public By NewBuyerAddCard(string card,string cardDate)
+    {
+        SendKeys(_fieldCardBuyer, card);
+        SendKeys(_fieldCardDate,cardDate);
+        Thread.Sleep(300);
+        driver.FindElements(By.XPath("//div[@id='newBuyer']/div"))[0].FindElements(_btnSendSms)[0].Click();
+        Thread.Sleep(200);
+        if (driver.FindElements(By.XPath("//div[@class='error']")).Count!=0)
+        {
+            return By.XPath("//div[@class='error']");
+        }
+        Click(_btnDebuggerMaximize);//открываем дебаггер, если нужно сверить смс-код
+        Thread.Sleep(20000);
+        ClickIndexList(_listDebuggerMessages,0);
+        driver.ExecuteJavaScript("window.scrollTo(0,1500)");
+        smsCode = GetSmsCode(_listDebuggerMessages,29);
+        Thread.Sleep(300);
+        Click(_btnDebuggerMinimize);
+        SendKeys(_fieldSmsCheck,smsCode);
+        driver.FindElements(By.XPath("//div[@id='newBuyer']/div/div"))[1].FindElements(_btnSendSms)[0].Click();
+        return By.XPath("//div[@id='newBuyer']/div/div");
+    }
+
+    public void NewBuyerAddPhotos()
+    {
+        attachFile(driver,_attachPassportSelfie,"C:/Users/ipopov/RiderProjects/TestsPaymart/TestsPaymart/File/1.jpg" );
+        attachFile(driver,_attachPassportFirstPage,"C:/Users/ipopov/RiderProjects/TestsPaymart/TestsPaymart/File/1.jpg");
+        attachFile(driver,_attachPassportAdressPage,"C:/Users/ipopov/RiderProjects/TestsPaymart/TestsPaymart/File/1.jpg");
+        Thread.Sleep(200);
+        driver.ExecuteJavaScript("window.scrollTo(0,700)");
+        Click(_btnSavePhotos);
+        
+    }
+
+    public void NewBuyerAddContactFace()
+    {
+        driver.FindElements(_fieldContactFaceOne)[0].SendKeys("Brad Pitt");
+        driver.FindElements(_fieldContactFaceOne)[1].SendKeys("Хлеб Питт");
+        driver.FindElements(_fieldContactFaceNumber)[0].SendKeys("123456789");
+        driver.FindElements(_fieldContactFaceNumber)[1].SendKeys("098765432");
+        Click(_btnAddContact);
+    }
+    
 }
