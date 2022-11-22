@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using NUnit.Framework.Internal;
 using OpenQA.Selenium.Interactions;
 
@@ -64,21 +65,55 @@ public class VendorTests:Overloads
     }
 
     [Test]
-    public void CreateContractVendor()
+    public void FindBuyerNegativeBuyerNotFound()
     {
         AuthVendor(idVendor,passwordVendor);
+        Thread.Sleep(1000);
         driver.FindElements(_listLeftMenu)[0].Click();
         SendKeys(_fieldNumberBuyerNewContract,"123456789");
         Screenshot("CreateContractVendor");
+        TestExpectedActualNonDigit(_windowUserNotFound,"Пользователь не найден");
+    }
+    [Test]
+    public void FindBuyerVendor()
+    {
+        FindBuyer();
+        SendKeys(_fieldNumberBuyerNewContract,_buyerForContract);
+        Thread.Sleep(200);
+        TestExpectedActualOnlyDigit(_exNumberBuyer,"998"+_buyerForContract);
+        Screenshot("Номер покупателя:998"+_buyerForContract);
+    }
+    [Test]
+    public void CreateContractVendor()
+    {
+        
+        AuthVendor(idVendor,passwordVendor);
+        Thread.Sleep(1000);
+        driver.FindElements(_listLeftMenu)[0].Click();
+        /*SendKeys(_fieldNumberBuyerNewContract,"123456789");
+        Screenshot("CreateContractVendor");
         
         TestExpectedActualNonDigit(_windowUserNotFound,"Пользователь не найден");
-        driver.FindElement(_fieldNumberBuyerNewContract).Clear();
-        SendKeys(_fieldNumberBuyerNewContract,"99"+_newBuyer);
+        driver.FindElement(_fieldNumberBuyerNewContract).Clear();*/
         
-        Click(_windowAccertNumber);
-        TestExpectedActualOnlyDigit(_exNumberBuyer,"99"+_newBuyer);
-        //driver.FindElement(By.XPath("//*[@id='vue-app']/div/div[2]/div/form/div[2]/div[2]/div/div/div[1]/div[1]/div/div/div/div[1]")).Click();
         
+        unhide(driver,driver.FindElement(By.XPath("//span[@class='multiselect__single']")));
+        
+        Select(_btnActionCategory,0,_selectProductCategory,0);
+        Select(_btnActionCategory,1,_selectProductCategory,19);
+        Select(_btnActionCategory,2,_selectProductCategory,21);
+        Scroll(0,300);
+        SendKeys(_fieldProducts,3,"СВЧ-Печь 'Салем 1692'");
+        Select(_selectListNewContract,0,0);
+        Clear(_fieldProducts,4);
+        SendKeys(_fieldProducts,4,"2");
+        SendKeys(_fieldProducts,5,"100");
+        Select(_selectListNewContract,1,3);
+        Thread.Sleep(500);
+        Scroll(0,800);
+        Click(_btnCreateContract);
+        ClickIndexList(_btnSendSms,1);
+        TestExpectedActualOnlyDigit(_exContractIsCreated,$"99{_newBuyer}");
     }
     
 
@@ -141,7 +176,7 @@ public class VendorTests:Overloads
         
     }
     [Test]
-    public void CancelContractVendor()//проверяем отмену контракта(для позитивного теста необходим смс-код)
+    public void CancelContractVendor()//проверяем отмену контракта
     {
         driver.Manage().Timeouts().ImplicitWait.Add(System.TimeSpan.FromSeconds(5));
         AuthVendor(idVendor,passwordVendor);
@@ -184,27 +219,72 @@ public class VendorTests:Overloads
     {
         AuthVendor(idVendor,passwordVendor);
         NewBuyerBeforeAddCard(_negativeBuyer);
-        By check = NewBuyerAddCard("8600492934548781","1027");
-        TestExpectedActual(check,"Карта не прошла проверку платежеспособности! Укажите другую карту.");
-        Screenshot("Карта не прошла проверку платежеспособности");
+        
+        if ((driver.FindElements(_exNewBuyerIsReg).Count == 0))
+        {
+            By check = NewBuyerAddCard("8600492934548781","1027");
+            Scroll(0,300);
+            Screenshot("Карта не прошла проверку платежеспособности");
+            TestExpectedActual(check,"Карта не прошла проверку платежеспособности! Укажите другую карту.");
+        }
+        else if(driver.FindElements(_exNewBuyerIsReg).Count == 0)
+        {
+            TestExpectedActual(_exNewBuyerIsReg,"Данный пользователь уже зарегистрирован!");
+        }
+        
+        
     }
     [Test]
     public void NewBuyerCardNotBuyers()//проверка, является ли покупатель хозяином карты
     {
         AuthVendor(idVendor,passwordVendor);
         NewBuyerBeforeAddCard(_newBuyer);
-        By check = NewBuyerAddCard("8600492934548781","1027");
-        TestExpectedActual(check,"Телефон клиента не совпадает с телефоном смс информирования карты");
-        Screenshot("Карта клиента не привязана к телефоне");
+        if ((driver.FindElements(_exNewBuyerIsReg).Count==0))
+        {
+            By check = NewBuyerAddCard("8600492934548781","1027");
+            TestExpectedActual(check,"Телефон клиента не совпадает с телефоном смс информирования карты");
+            Scroll(0,300);
+            Screenshot("Карта клиента не привязана к телефоне");
+        }
+        else if(driver.FindElements(_exNewBuyerIsReg).Count!=0)
+        {
+            TestExpectedActual(_exNewBuyerIsReg,"Данный пользователь уже зарегистрирован!");
+        }
+        
     }
     [Test]
     public void NewBuyer()
+        /*Данный тест универсален. Если пользователь уже зарегал карту или залил фотографии и отложил регистрацию,
+         то запустив тест, мы начнем с незавершенного шага. Также, если пользователь зарегистрирован,
+         то тест покажет, статус клиента*/
     {
         AuthVendor(idVendor,passwordVendor);
         NewBuyerBeforeAddCard("8998186838");
-        NewBuyerAddCard("8600492976703658","1125");
-        NewBuyerAddPhotos();
-        NewBuyerAddContactFace();
+        if (driver.FindElements(By.XPath("//div[@class='alert alert-success']")).Count==0)
+        {
+            NewBuyerAddCard("8600492976703658","1125");
+        }
+        
+        if (driver.FindElements(By.XPath("//div[@class='alert alert-success']")).Count==1)
+        {
+            NewBuyerAddPhotos();
+        }
+        Thread.Sleep(1000);
+        if (driver.FindElements(By.XPath("//div[@class='alert alert-success']")).Count==2)
+        {
+            NewBuyerAddContactFace();
+        }
+        if (driver.FindElements(By.XPath("//p[@class='font-size-18 mt-3']")).Count!=0)
+        {
+            TestExpectedActual(_exClientIsReg, "Покупатель успешно отправлен на модерацию!");
+            Screenshot("Покупатель успешно отправлен на модерацию!");
+            return;
+        }
+        if (driver.FindElements(By.XPath("//div[@class='alert alert-success']")).Count==3)
+        {
+            TestExpectedActual(_exWaitingForModerate, "В ожидании модерции");
+            Screenshot("В ожидании модерации");
+        }
     }
     
     [TearDown]
@@ -212,22 +292,11 @@ public class VendorTests:Overloads
     {
         //driver.Quit();
     }
-
-    /* public void AdminAuth()
-     {
-         driver.Navigate().GoToUrl("https://lisa.paymart.uz/ru/login");//вводим адрес сайта
-         driver.Manage().Window.Maximize();//открыть в полном окне
-         driver.Manage().Timeouts().ImplicitWait=TimeSpan.FromSeconds(10);
-         driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(10);
-         SendKeys(_fieldIdAuth,_numberAdmin);
-         SendKeys(_fieldPasswordAuth,_passwordAdmin);
-         Click(_btnAuthAdmin);
-         Thread.Sleep(500);
-         TestExpectedActual(_expEmployees, "Сотрудники");
-     }*/
+    
 
     public void NewBuyerBeforeAddCard( string phone)
     {
+        Thread.Sleep(500);
         ClickIndexList(_listLeftMenu, 3);
         SendKeys(_fieldNewBuyer, phone);
         //ClickIndexList(_btnSendSms,0);
@@ -272,6 +341,7 @@ public class VendorTests:Overloads
         attachFile(driver,_attachPassportAdressPage,"C:/Users/ipopov/RiderProjects/TestsPaymart/TestsPaymart/File/1.jpg");
         Thread.Sleep(200);
         driver.ExecuteJavaScript("window.scrollTo(0,700)");
+        Thread.Sleep(300);
         Click(_btnSavePhotos);
         
     }

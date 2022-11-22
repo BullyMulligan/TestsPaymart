@@ -2,7 +2,7 @@ namespace TestsPaymart;
 
 public class Data:General
 {
-    protected IWebDriver driver;
+    
     protected string idVendor = "216580";//2
     protected string passwordVendor = "J74DdLwWV32l";//1sOwS0vCTHCS
 
@@ -20,4 +20,6 @@ public class Data:General
     protected string _buyerCardDate = "1125"; //"1226";
     protected string _negativeBuyer = "8940937094";
     protected string _newBuyer = "8998186838"; //"8909831021";// 10 цифр
+
+    protected string _buyerForContract = "998186838";
 }

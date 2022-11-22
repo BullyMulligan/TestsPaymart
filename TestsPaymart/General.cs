@@ -24,10 +24,20 @@ public class General:Global
     protected readonly By _tableContract = By.XPath("//table[@class='products table-bordered']//tr//th");
     protected readonly By _orderStatusTab = By.XPath("//ul[@id='orderStatus']//li");
     protected readonly By _exNewContract = By.XPath("//div[@class='title']//h1");
+    //New contract
     protected readonly By _fieldNumberBuyerNewContract = By.XPath("//div//input[@required='required']");
     protected readonly By _windowAccertNumber = By.XPath("//div//a[@class='dropdown-item']");
     protected readonly By _windowUserNotFound = By.XPath("//div[@class='dropdown-menu show user-info-dropdown']/div");
     protected readonly By _exNumberBuyer =By.XPath("//div[@class='font-weight-normal mb-2']");
+    protected readonly By _btnActionCategory = By.XPath("//div[@bg-color='grey']");
+    protected readonly By _selectProductCategory = By.XPath("//ul[@class='multiselect__content']/li");
+    protected readonly By _fieldProducts = By.XPath("//input[@autocomplete='off']");
+    protected readonly By _selectListNewContract = By.XPath("//select");
+    protected readonly By _exContractIsCreated = By.XPath("//div[@class='mb-2']");
+    protected readonly By _btnCreateContract = By.Id("submitOrder");
+    
+
+
     protected readonly By _listCatalogTitleRight = By.XPath("//div[@class='title-right']//a");
     protected readonly By _exFieldsErrors = By.XPath("//span[@class='validation-error']");
     protected readonly By _listItem = By.XPath("//div[@class='list']");
@@ -59,6 +69,9 @@ public class General:Global
     protected readonly By _fieldContactFaceOne =By.Id("name");
     protected readonly By _fieldContactFaceNumber = By.Id("phone");
     protected readonly By _btnAddContact = By.XPath("//div[@class='form-controls mt-0 pt-0']//button");
+    protected readonly By _exNewBuyerIsReg = By.XPath("//div[@class='alert alert-info']");
+    protected readonly By _exWaitingForModerate = By.XPath("//div[@class='alert alert-info']");
+    protected readonly By _exClientIsReg = By.XPath("//div[@class='font-weight-900 font-size-40 text']");
     
     
     
@@ -88,4 +101,6 @@ public class General:Global
     protected readonly By _fieldConfirmCode =By.Id("confirm-code");
     protected readonly By _btnCheckCode = By.XPath("//button[@class='btn btn-primary']");
     protected readonly By _btnScoring =By.XPath("//button[@style='cursor: pointer;']");
+    protected readonly By _exStatusScoring = By.XPath("//td[@style='text-align: left;']");
+    protected readonly By _exScoringIsPassed = By.XPath("//table[@class='table']//th");
 }

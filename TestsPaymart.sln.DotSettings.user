@@ -1,4 +1,49 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=16032244_002D03cf_002D4891_002D8837_002D4718f15cfd85/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="LanguageSwitchTest #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B98CA81E-1DD8-41BD-B5A6-01669BAF9094::net6.0::TestsPaymart.VendorTests.LanguageSwitchTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B98CA81E-1DD8-41BD-B5A6-01669BAF9094::net6.0::TestsPaymart.VendorTests.PrintContractAct&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B98CA81E-1DD8-41BD-B5A6-01669BAF9094::net6.0::TestsPaymart.VendorTests.CreateContractVendor&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=17a97e85_002D5d67_002D4f2d_002Db50e_002D3e73a2ff0e9e/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CreateContractVendor" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B98CA81E-1DD8-41BD-B5A6-01669BAF9094::net6.0::TestsPaymart.VendorTests.CreateContractVendor&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B98CA81E-1DD8-41BD-B5A6-01669BAF9094::net6.0::TestsPaymart.AdminTests.Scoring&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B98CA81E-1DD8-41BD-B5A6-01669BAF9094::net6.0::TestsPaymart.AdminTests.Auth&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=1eaca53f_002Df2da_002D4eaf_002D9e41_002D7861e2866104/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="InstructionDownloadTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B98CA81E-1DD8-41BD-B5A6-01669BAF9094::net6.0::TestsPaymart.VendorTests.InstructionDownloadTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B98CA81E-1DD8-41BD-B5A6-01669BAF9094::net6.0::TestsPaymart.VendorTests.NewBuyerCardNotBuyers&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B98CA81E-1DD8-41BD-B5A6-01669BAF9094::net6.0::TestsPaymart.VendorTests.NewBuyerSolvency&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B98CA81E-1DD8-41BD-B5A6-01669BAF9094::net6.0::TestsPaymart.VendorTests.NewBuyer&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=1fb29171_002Dc0e2_002D482f_002D9c30_002D2d590ce8e8df/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CreateContractVendor #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B98CA81E-1DD8-41BD-B5A6-01669BAF9094::net6.0::TestsPaymart.VendorTests&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=2f1f5b52_002D2d01_002D4dbb_002Da2e2_002Db34208474f40/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Scoring #5" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B98CA81E-1DD8-41BD-B5A6-01669BAF9094::net6.0::TestsPaymart.AdminTests.Scoring&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=30c19b29_002D6659_002D4328_002Da474_002Da58fa5a64fe1/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="LanguageSwitchTest #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B98CA81E-1DD8-41BD-B5A6-01669BAF9094::net6.0::TestsPaymart.VendorTests.LanguageSwitchTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=4305ad34_002Dd04a_002D4a90_002Da5a9_002Dd66c6e2385ee/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Scoring #6" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B98CA81E-1DD8-41BD-B5A6-01669BAF9094::net6.0::TestsPaymart.AdminTests.Scoring&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B98CA81E-1DD8-41BD-B5A6-01669BAF9094::net6.0::TestsPaymart.VendorTests.NewBuyer&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B98CA81E-1DD8-41BD-B5A6-01669BAF9094::net6.0::TestsPaymart.AdminTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B98CA81E-1DD8-41BD-B5A6-01669BAF9094::net6.0::TestsPaymart.VendorTests&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=c78bf6ab_002Dfcd9_002D4b0e_002Dba9f_002D8a37ca0b83ae/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Scoring #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::B98CA81E-1DD8-41BD-B5A6-01669BAF9094::net6.0::TestsPaymart.AdminTests.Scoring&lt;/TestId&gt;&#xD;
@@ -8,7 +53,13 @@
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=c8ca80ba_002D841a_002D479a_002Da569_002D85e986849cad/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from Solution" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Solution /&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=d545e927_002D7db7_002D4b54_002Da136_002D944c42fd8cc9/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="NewBuyerWithoutAddCard #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=cbe0fbc9_002D513a_002D4fd8_002Db095_002D7296db47a18a/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Scoring #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B98CA81E-1DD8-41BD-B5A6-01669BAF9094::net6.0::TestsPaymart.AdminTests.Scoring&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B98CA81E-1DD8-41BD-B5A6-01669BAF9094::net6.0::TestsPaymart.VendorTests.NewBuyer&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=d545e927_002D7db7_002D4b54_002Da136_002D944c42fd8cc9/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="NewBuyerWithoutAddCard #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::B98CA81E-1DD8-41BD-B5A6-01669BAF9094::net6.0::TestsPaymart.VendorTests.NewBuyerWithoutAddCard&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::B98CA81E-1DD8-41BD-B5A6-01669BAF9094::net6.0::TestsPaymart.VendorTests.AuthVendor&lt;/TestId&gt;&#xD;
@@ -27,6 +78,16 @@
     &lt;TestId&gt;NUnit3x::B98CA81E-1DD8-41BD-B5A6-01669BAF9094::net6.0::TestsPaymart.VendorTests.NegativeAuthIDTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=dda9993a_002Db9e8_002D4b05_002Da989_002D750f222ebd84/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Scoring #4" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B98CA81E-1DD8-41BD-B5A6-01669BAF9094::net6.0::TestsPaymart.AdminTests.Scoring&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e31abce1_002Da944_002D4862_002Dba20_002D31b3edaa15f3/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="LanguageSwitchTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B98CA81E-1DD8-41BD-B5A6-01669BAF9094::net6.0::TestsPaymart.VendorTests.LanguageSwitchTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e34be2af_002D72c8_002D4241_002D88ae_002D35a20de52616/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Scoring" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::B98CA81E-1DD8-41BD-B5A6-01669BAF9094::net6.0::TestsPaymart.AdminTests.Scoring&lt;/TestId&gt;&#xD;
@@ -35,6 +96,23 @@
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e77a5a37_002D2169_002D498a_002D862e_002Da464acf50f30/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="NewBuyerWithoutAddCard #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::B98CA81E-1DD8-41BD-B5A6-01669BAF9094::net6.0::TestsPaymart.VendorTests.NewBuyerWithoutAddCard&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e7fdebf6_002Dbf9f_002D41df_002Db015_002Dfb923495066f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CreateContractVendor #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B98CA81E-1DD8-41BD-B5A6-01669BAF9094::net6.0::TestsPaymart.VendorTests.CreateContractVendor&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B98CA81E-1DD8-41BD-B5A6-01669BAF9094::net6.0::TestsPaymart.VendorTests.FindBuyerNegativeBuyerNotFound&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B98CA81E-1DD8-41BD-B5A6-01669BAF9094::net6.0::TestsPaymart.VendorTests.FindBuyerVendor&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B98CA81E-1DD8-41BD-B5A6-01669BAF9094::net6.0::TestsPaymart.VendorTests.LanguageSwitchTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B98CA81E-1DD8-41BD-B5A6-01669BAF9094::net6.0::TestsPaymart.VendorTests.Auth&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=ed73158e_002D1f2f_002D4d5f_002Dba56_002D1d0c10197d69/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="NewBuyer" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B98CA81E-1DD8-41BD-B5A6-01669BAF9094::net6.0::TestsPaymart.VendorTests.NewBuyer&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B98CA81E-1DD8-41BD-B5A6-01669BAF9094::net6.0::TestsPaymart.VendorTests.Test&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B98CA81E-1DD8-41BD-B5A6-01669BAF9094::net6.0::TestsPaymart.AdminTests.FindBuyer&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B98CA81E-1DD8-41BD-B5A6-01669BAF9094::net6.0::TestsPaymart.AdminTests.Scoring&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f70779af_002Df2f5_002D4621_002D9e21_002De6fac03990c3/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="NewBuyerWithoutAddCard" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;

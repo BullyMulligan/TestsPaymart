@@ -1,3 +1,5 @@
+using OpenQA.Selenium.Support.UI;
+
 namespace TestsPaymart;
 
 public class Overloads:Data
@@ -52,11 +54,29 @@ public class Overloads:Data
         sendingElement.SendKeys(text);
         
     }
+    protected void SendKeys(By element,int index, string text)//перегрузка "SendKeys" - введите SendKeys(элемент поля ввода,текст)
+    {
+        var sendingElement = driver.FindElements(element)[index];
+        sendingElement.SendKeys(text);
+        
+    }
+    protected void Clear(By element)//перегрузка "SendKeys" - введите SendKeys(элемент поля ввода,текст)
+    {
+        var sendingElement = driver.FindElement(element);
+        sendingElement.Clear();
+        
+    }
+    protected void Clear(By element,int index)//перегрузка "SendKeys" - введите SendKeys(элемент поля ввода,текст)
+    {
+        var sendingElement = driver.FindElements(element)[index];
+        sendingElement.Clear();
+        
+    }
 
     protected void Screenshot(string name)//перегрузка метода. Просто введи Screenshot("имя_скриншота")
     {
         Screenshot s1 = ((ITakesScreenshot)driver).GetScreenshot();
-        s1.SaveAsFile($"#{name}.jpg");
+        s1.SaveAsFile($"C:/Users/ipopov/RiderProjects/TestsPaymart/TestsPaymart/File/Screenshots/{name}.jpg");
     }
 
     private string OnlyDigit(string text)//метод, возвращающий строку цифр
@@ -90,7 +110,7 @@ public class Overloads:Data
     protected void DownloadFileToUrl(string file)//метод сохраняет файл,добавляя имени # в начало имени. Параметры - "имя_файла.расширение"
     {
         WebClient wc = new WebClient();
-        wc.DownloadFile(driver.Url,"#"+file);
+        wc.DownloadFile(driver.Url,"C:/Users/ipopov/RiderProjects/TestsPaymart/TestsPaymart/File/Screenshots/"+file);
     }
 
     protected string GetSmsCode(By element,int index)
@@ -138,6 +158,11 @@ public class Overloads:Data
         IWebElement elemen = driver.FindElement(element);
         action.ContextClick(elemen).Perform();
     }
+    public void RightClick(IWebElement element)
+    {
+        Actions action = new Actions(driver);
+        action.ContextClick(element).Perform();
+    }
     //Методы авторизации
     public By AuthVendor(string id, string password)
     {
@@ -149,16 +174,71 @@ public class Overloads:Data
     }
     public void AuthAdmin(string login,string password)
     {
-        driver = new OpenQA.Selenium.Chrome.ChromeDriver();//открываем Хром
         driver.Navigate().GoToUrl("https://sasha.paymart.uz/ru/login");//вводим адрес сайта
         driver.Manage().Window.Maximize();//открыть в полном окне
         driver.Manage().Timeouts().ImplicitWait=TimeSpan.FromSeconds(10);
         driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(10);
         driver.Manage().Timeouts().AsynchronousJavaScript = TimeSpan.FromSeconds(10);
         SendKeys(_fieldIdAuth,login);
-        SendKeys(_fieldPasswordAuth,login);
+        SendKeys(_fieldPasswordAuth,password);
         Click(_btnAuthAdmin);
         Thread.Sleep(500);
         TestExpectedActual(_expEmployees, "Сотрудники");
+    }
+    public void FindBuyer()
+    {
+        AuthVendor(idVendor,passwordVendor);
+        Thread.Sleep(1000);
+        driver.FindElements(_listLeftMenu)[0].Click();
+        SendKeys(_fieldNumberBuyerNewContract,_buyerForContract);
+        Thread.Sleep(200);
+        Click(_windowAccertNumber);
+    }
+
+    public void Select(By select, int index,int element)
+    {
+        SelectElement list = new SelectElement(driver.FindElements(select)[index]);
+        list.SelectByIndex(element);
+    }
+    public void Select(By select, int index,string text)
+    {
+        SelectElement list = new SelectElement(driver.FindElements(select)[index]);
+        list.SelectByText(text);
+    }
+    public void selectStudyType(string studyType,string XPath)
+    {
+        //driver.FindElement(By.XPath(XPath)).Click();
+        // you might need a slight pause here waiting for the dropdown to load and open
+        driver.FindElement(By.XPath(XPath + studyType)).Click();
+    }
+
+    public void ActionClick(By element)
+    {
+        Actions action = new Actions(driver);
+        action.Click(driver.FindElement(element)).Perform();
+    }
+
+    public void ActionClick(By list, int index)
+    {
+        Actions action = new Actions(driver);
+        action.Click(driver.FindElements(list)[index]).Perform();
+    }
+    public void ActionClick(By list, int index,string name)
+    {
+        Actions action = new Actions(driver);
+        action.Click(driver.FindElements(list)[index].FindElement(By.XPath("[text()='"+name+"']"))).Perform();
+    }
+
+    public void Scroll(int weiпth,int height)
+    {
+        driver.ExecuteJavaScript($"window.scrollTo({weiпth},{height})");
+    }
+
+    public void Select(By list,int indexList, By element,int indexElement)//Заполняем модифицированный список Ul/li
+    {
+        ActionClick(list,indexList);//Жмем кнопку, если она единственная, то индекс заполняем 0
+        Thread.Sleep(200);
+        ActionClick(element,indexElement);//element - искомый элемент в листе, indexElement - его индекс
+        Thread.Sleep(500);
     }
 }

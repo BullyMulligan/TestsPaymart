@@ -19,4 +19,8 @@
         <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="107.0.5304.1800-beta" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="File\Screenshots" />
+    </ItemGroup>
+
 </Project>

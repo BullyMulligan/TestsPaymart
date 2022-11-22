@@ -44,35 +44,19 @@ public class AdminTests:Overloads
     public void FindBuyer()
     {
         AuthAdmin(_numberAdmin,_passwordAdmin);
-        Click(_btnSideBarOpen);
-        driver.ExecuteJavaScript("window.scrollTo(0,700)");
-        driver.FindElements(_listSideBarMenu)[24].Click();
-        driver.FindElements(_fieldSearchClient)[1].SendKeys(_newBuyer);
-        Click(_btnSearchClient);
-        Thread.Sleep(1000);
-        driver.FindElements(By.XPath("//tbody"))[0].Click();
+        FindBuyerAdmin(_newBuyer);
     }
-    [Test
-    ]
+    [Test]
     public void Scoring()
     {
-        FindBuyer();
+        AuthAdmin(_numberAdmin,_passwordAdmin);
+        FindBuyerAdmin(_newBuyer);
         Thread.Sleep(2000);
         driver.ExecuteJavaScript("window.scrollTo(0,300)");
-        Click(_btnModerate);
-        /*Click(_btnAddCard);
-        Thread.Sleep(500);
-        SendKeys(_fieldCardNumber,_buyerCard);
-        SendKeys(_fieldCadrdDate,_buyerCardDate);
-        Thread.Sleep(5000);
-        ClickIndexList(_btnSendSmsScoring,0);
-        Click(_btnDebuggerMaximize);//открываем дебаггер, если нужно сверить смс-код
-        var smsCode = GetSmsCode(_listDebuggerMessages,5);
-        Click(_btnDebuggerMinimize);
-        SendKeys(_fieldConfirmCode,smsCode);
-        Click(_btnCheckCode);
-        Thread.Sleep(1000);
-        driver.SwitchTo().Alert().Accept();*/
+        if (driver.FindElements(_btnModerate).Count!=0)//если клиент не верифицирован
+        {
+            Click(_btnModerate);//жмем кнопку "модерацию"
+        }
         Thread.Sleep(200);
         driver.FindElements(_listScoringCient)[0].SendKeys(_passportNumber);
         driver.FindElements(_listScoringCient)[1].SendKeys(_buyerPnfl);
@@ -80,12 +64,35 @@ public class AdminTests:Overloads
         select.SelectByIndex(10);
         select = new SelectElement(driver.FindElements(By.XPath("//select[@class='form-control']"))[3]);
         select.SelectByIndex(6);
-        Click(_btnScoring);
+        Scroll(0,1200);
+        if (driver.FindElements(_btnScoring).Count == 1 && driver.FindElements(_exScoringIsPassed).Count==9)
+        {
+            Click(_btnScoring);
+           
+            Thread.Sleep(2000);
+            Screenshot("Скоринг начался");
+            return;
+        }
+        
+        TestExpectedActual(_exStatusScoring,"Статус в MyId");
+        Screenshot("Скоринг уже пройден");
+        
+        
     }
 
     [TearDown]
     public void TearDown()
     {
         //driver.Quit();
+    }
+    public void FindBuyerAdmin(string number)
+    {
+        Click(_btnSideBarOpen);
+        driver.ExecuteJavaScript("window.scrollTo(0,700)");
+        driver.FindElements(_listSideBarMenu)[24].Click();
+        driver.FindElements(_fieldSearchClient)[1].SendKeys(number);
+        Click(_btnSearchClient);
+        Thread.Sleep(1000);
+        driver.FindElements(By.XPath("//tbody"))[0].Click();
     }
 }
