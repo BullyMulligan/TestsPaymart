@@ -10,6 +10,11 @@ public class Overloads:Data
         Assert.AreEqual(driver.FindElement(expected).Text,actual);
     }
 
+    protected void TestExpectedActual(By expected, int index, string actual)
+    {
+        Assert.AreEqual(driver.FindElements(expected)[index].Text,actual);
+    }
+
     protected void TestExpectedActualNonDigit(By expected,string actual)
     {
         
@@ -113,14 +118,19 @@ public class Overloads:Data
         wc.DownloadFile(driver.Url,"C:/Users/ipopov/RiderProjects/TestsPaymart/TestsPaymart/File/Screenshots/"+file);
     }
 
-    protected string GetSmsCode(By element,int index)
+    protected string GetSmsCode(int index)
     {
-        Thread.Sleep(2000);
-        string text = driver.FindElements(element)[index].Text;
+        Click(_btnDebuggerMaximize); //открываем дебаггер, если нужно сверить смс-код
+        Thread.Sleep(300);
+        while (driver.FindElements(_listDebuggerMessages).Count<=index)
+        {
+            Thread.Sleep(100);
+        }
+        string text = driver.FindElements(_listDebuggerMessages)[index].Text;
         OnlyDigit(text);
         var code = "";
         var count = 0;
-        if (count<=4)
+        while (count<=4)
         {
             for (int i = 55; i < text.Length; i++)
             {
@@ -131,6 +141,7 @@ public class Overloads:Data
                 }
             }
         }
+        Click(_btnDebuggerMinimize);
         return code;
     }
     public void unhide(IWebDriver driver, IWebElement element) //делаем элемент видимым
@@ -169,6 +180,7 @@ public class Overloads:Data
         SendKeys(_fieldIdVendor,id);
         SendKeys(_fieldPasswordVendor,password);
         Click(_authButton);
+        Thread.Sleep(500);
         return By.XPath("//div[@class='error']");
         
     }
@@ -183,7 +195,6 @@ public class Overloads:Data
         SendKeys(_fieldPasswordAuth,password);
         Click(_btnAuthAdmin);
         Thread.Sleep(500);
-        TestExpectedActual(_expEmployees, "Сотрудники");
     }
     public void FindBuyer()
     {

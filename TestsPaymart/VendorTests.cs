@@ -40,9 +40,9 @@ public class VendorTests:Overloads
     public void PrintContractAct()//Проверка распечатки Акта клиента
     {
         AuthVendor(idVendor,passwordVendor);
-        driver.FindElements(_listLeftMenu)[3].Click();
+        Thread.Sleep(500);
         ClickIndexList(_listLeftMenu,1);
-        TestExpectedActualNonDigit(_orderStatusTab,"Все договоры ",0);
+        /*TestExpectedActualNonDigit(_orderStatusTab,"Все договоры ",0);
         TestExpectedActualNonDigit(_orderStatusTab, "На модерации ", 1);
         TestExpectedActualNonDigit(_orderStatusTab, "В рассрочке ", 2);
         TestExpectedActualNonDigit(_orderStatusTab, "Загрузить акт ", 3);
@@ -56,12 +56,19 @@ public class VendorTests:Overloads
         TestExpectedActualNonDigit(_tableContract, "Сумма НДС", 5);
         TestExpectedActualNonDigit(_tableContract, "Всего с НДС", 6);
         TestExpectedActualNonDigit(_btnPrintClientAct,"Распечатать Акт клиента");
-        TestExpectedActualNonDigit(_photoClient, "фото клиента");
+         TestExpectedActualNonDigit(_photoClient, "фото клиента");
         TestExpectedActualNonDigit(_act, "AКТ");
-        TestExpectedActualNonDigit(_btnCancelContract, "Отменить договор");
-        Click(_btnPrintClientAct);
-        driver.SwitchTo().Window(driver.WindowHandles[1]);
-        DownloadFileToUrl("PrintContractAct.pdf");
+        TestExpectedActualNonDigit(_btnCancelContract, "Отменить договор");*/
+        if (driver.FindElements(_btnPrintClientAct).Count != 0)
+        {
+            Click(_btnPrintClientAct);
+            driver.SwitchTo().Window(driver.WindowHandles[1]);
+            DownloadFileToUrl("АКТ на узбекском(латиница и кириллица) и на русском языках.pdf");
+            return;
+        }
+        Scroll(0,500);
+        Screenshot("Отсутствие кнопки Скачать АКТ, так как он находится на модерации");
+        
     }
 
     [Test]
@@ -86,19 +93,16 @@ public class VendorTests:Overloads
     [Test]
     public void CreateContractVendor()
     {
-        
+        var number = "909775979";
         AuthVendor(idVendor,passwordVendor);
         Thread.Sleep(1000);
-        driver.FindElements(_listLeftMenu)[0].Click();
-        /*SendKeys(_fieldNumberBuyerNewContract,"123456789");
-        Screenshot("CreateContractVendor");
-        
-        TestExpectedActualNonDigit(_windowUserNotFound,"Пользователь не найден");
-        driver.FindElement(_fieldNumberBuyerNewContract).Clear();*/
-        
-        
-        unhide(driver,driver.FindElement(By.XPath("//span[@class='multiselect__single']")));
-        
+        FindBuyerCreateContract("1234567890");
+        if (driver.FindElement(By.XPath("//div[@class='dropdown-menu show user-info-dropdown']")).Text=="Пользователь не найден")
+        {
+            Screenshot("Пользователь не найден");
+            return;
+        }
+        Click(_windowUserNotFound);
         Select(_btnActionCategory,0,_selectProductCategory,0);
         Select(_btnActionCategory,1,_selectProductCategory,19);
         Select(_btnActionCategory,2,_selectProductCategory,21);
@@ -113,7 +117,8 @@ public class VendorTests:Overloads
         Scroll(0,800);
         Click(_btnCreateContract);
         ClickIndexList(_btnSendSms,1);
-        TestExpectedActualOnlyDigit(_exContractIsCreated,$"99{_newBuyer}");
+        TestExpectedActualOnlyDigit(_exContractIsCreated,$"998{number}");
+        Screenshot("Договор передан на подтверждение клиенту");
     }
     
 
@@ -168,7 +173,7 @@ public class VendorTests:Overloads
        
     }
     [Test]
-    public void NegativeAuthIDTests()
+    public void NegativeAuthIdTests()
     {
         var check = AuthVendor("123456789","123");
         TestExpectedActual(check,"Данный ID не зарегистрирован");
@@ -178,41 +183,36 @@ public class VendorTests:Overloads
     [Test]
     public void CancelContractVendor()//проверяем отмену контракта
     {
-        driver.Manage().Timeouts().ImplicitWait.Add(System.TimeSpan.FromSeconds(5));
         AuthVendor(idVendor,passwordVendor);
+        FindContract("4");
+        if (driver.FindElement(_exStatusContract).Text=="В Рассрочке")
+        {
+            Click(_btnCancelContract);
+            Thread.Sleep(500);
+            Click(_btnReasonCancelContract);
+            SendKeys(_fieldReasonCancelContract,"Я хлебушек");
+            Click(_btnReasonCancelContract);
+            driver.FindElements(By.XPath("//div[@class='mx-auto']//button"))[0].Click();
+            Thread.Sleep(500);
+            SendKeys(_fieldSmsCode,GetSmsCode( 0));
+            Click(_btnContractCancel);
+            FindContract("4");
+            TestExpectedActual(_exStatusContract,"Отменен");
+            Screenshot("Контракт отменен");
+        }
+        else if (driver.FindElement(_exStatusContract).Text=="Отменен")
+        {
+            Screenshot("Контракт был отменен ранее");
+        }
         
-        SendKeys(_fieldFoundContract,_numberFoundContract);
-        Click(_btnFoundContract);
         
-        TestExpectedActualOnlyDigit(_exСontractBuyer,_numberFoundContract);
-        Click(_btnCancelContract);
-        Thread.Sleep(500);
-        TestExpectedActual(_exReasonCancel,"Введите причину отмены договора");
-        Click(_btnReasonCancelContract);
-        
-        TestExpectedActual(_exReasonCancel, "Введите причину отмены договора"); //проверяем активность кнопки с пустым полем
-        SendKeys(_fieldReasonCancelContract,"Я хлебушек");
-        Click(_btnReasonCancelContract);
-        
-        TestExpectedActual(_exReasonCancelAssert,"Вы действительно хотите отменить договор?");
-        
-        driver.FindElements(By.XPath("//div[@class='mx-auto']//button"))[0].Click();
-        Thread.Sleep(500);
-        driver.FindElements(By.XPath("//div[@class='mx-auto']//button"))[0].Click();
-        Screenshot("CancelContractVendor");
-        TestExpectedActual(_exSmsCodeCheck,"СМС код неверный");
-        Click(_btnBackCancelContract);
-        
-        TestExpectedActual(_exInActive,"В Рассрочке");
     }
-
     [Test]
     public void DebuggerTest()
     {
         AuthVendor(idVendor,passwordVendor);
         Click(_btnDebuggerMaximize);
     }
-
     
     [Test]
     public void NewBuyerSolvency()//проверка платежеспособности
@@ -259,10 +259,18 @@ public class VendorTests:Overloads
          то тест покажет, статус клиента*/
     {
         AuthVendor(idVendor,passwordVendor);
-        NewBuyerBeforeAddCard("8998186838");
+        NewBuyerBeforeAddCard(_newBuyer);
+        if (driver.FindElements(By.XPath("//div[@class='alert alert-success']")).Count != 0)
+        {
+            if (driver.FindElement(_exWaitingForModerate).Text == "Данный пользователь уже зарегистрирован!")
+            {
+                Screenshot("Пользователь уже зарегистирован");
+                return;
+            }
+        }
         if (driver.FindElements(By.XPath("//div[@class='alert alert-success']")).Count==0)
         {
-            NewBuyerAddCard("8600492976703658","1125");
+            NewBuyerAddCard(_buyerCard,_buyerCardDate);
         }
         
         if (driver.FindElements(By.XPath("//div[@class='alert alert-success']")).Count==1)
@@ -292,21 +300,25 @@ public class VendorTests:Overloads
     {
         //driver.Quit();
     }
-    
 
-    public void NewBuyerBeforeAddCard( string phone)
+    public void FindContract(string number)
+    {
+        Thread.Sleep(500);
+        ClickIndexList(_listLeftMenu,1);
+        Thread.Sleep(500);
+        SendKeys(_fieldFoundContract,number);
+        Click(_btnFoundContract);
+    }
+    public void NewBuyerBeforeAddCard(string phone)
     {
         Thread.Sleep(500);
         ClickIndexList(_listLeftMenu, 3);
         SendKeys(_fieldNewBuyer, phone);
-        //ClickIndexList(_btnSendSms,0);
         driver.FindElements(By.XPath("//div[@id='newBuyer']/div"))[0].FindElements(_btnSendSms)[0].Click();
         Click(_btnDebuggerMaximize); //открываем дебаггер, если нужно сверить смс-код
         Thread.Sleep(300);
-
-        var smsCode = GetSmsCode(_listDebuggerMessages, 0);
         Click(_btnDebuggerMinimize);
-        SendKeys(_fieldSmsCodeNewBuyer, smsCode);
+        SendKeys(_fieldSmsCodeNewBuyer, GetSmsCode( 0));
         driver.FindElements(By.XPath("//div[@id='newBuyer']/div/div"))[1].FindElements(_btnSendSms)[0].Click();
         
     }
@@ -322,15 +334,10 @@ public class VendorTests:Overloads
         {
             return By.XPath("//div[@class='error']");
         }
-        Click(_btnDebuggerMaximize);//открываем дебаггер, если нужно сверить смс-код
-        Thread.Sleep(20000);
-        ClickIndexList(_listDebuggerMessages,0);
-        driver.ExecuteJavaScript("window.scrollTo(0,1500)");
-        smsCode = GetSmsCode(_listDebuggerMessages,29);
+        SendKeys(_fieldSmsCheck,GetSmsCode(29));
         Thread.Sleep(300);
-        Click(_btnDebuggerMinimize);
-        SendKeys(_fieldSmsCheck,smsCode);
-        driver.FindElements(By.XPath("//div[@id='newBuyer']/div/div"))[1].FindElements(_btnSendSms)[0].Click();
+        Scroll(0,200);
+        ClickIndexList(_btnSendSms,0);
         return By.XPath("//div[@id='newBuyer']/div/div");
     }
 
@@ -353,6 +360,14 @@ public class VendorTests:Overloads
         driver.FindElements(_fieldContactFaceNumber)[0].SendKeys("123456789");
         driver.FindElements(_fieldContactFaceNumber)[1].SendKeys("098765432");
         Click(_btnAddContact);
+    }
+
+    public void FindBuyerCreateContract(string number)
+    {
+        driver.FindElements(_listLeftMenu)[0].Click();
+        SendKeys(_fieldNumberBuyerNewContract,number);
+        Thread.Sleep(1000);
+        
     }
     
 }

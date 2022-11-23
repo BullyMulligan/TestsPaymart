@@ -26,31 +26,70 @@ public class AdminTests:Overloads
         AuthAdmin(_numberAdmin,_passwordAdmin);
     }
     [Test]
-    public  void AuthAdminNegative()
+    public  void AuthAdminEmptyNumber()
     {
-        Click(_btnAuthAdmin);
+        AuthAdmin("","");
         TestExpectedActual(_expErrorEmtyNumber,"Номер телефона не может быть пустым");
-        SendKeys(_fieldIdAuth,_numberAdmin);
-        Click(_btnAuthAdmin);
-        Thread.Sleep(500);
+        Screenshot("Номер телефона не может быть пустым");
+        //TestExpectedActual(_expErrorEmtyNumber,"Пароль не может быть пустым");
+        
+        //TestExpectedActual(_expErrorEmtyNumber,"Некорректный пароль");
+    }
+    [Test]
+    public  void AuthAdminEmptyPassword()
+    {
+        AuthAdmin(_numberAdmin,"");
         TestExpectedActual(_expErrorEmtyNumber,"Пароль не может быть пустым");
-        SendKeys(_fieldPasswordAuth,"12");
-        Click(_btnAuthAdmin);
-        Thread.Sleep(500);
+        Screenshot("Пароль не может быть пустым");
+        //TestExpectedActual(_expErrorEmtyNumber,"Некорректный пароль");
+    }
+    [Test]
+    public  void AuthAdminUncorectPassword()
+    {
+        AuthAdmin(_numberAdmin,"123456789");
         TestExpectedActual(_expErrorEmtyNumber,"Некорректный пароль");
+        Screenshot("Некорректный пароль");
+    }
 
+    [Test]
+    public void AuthAdminUserNotFound()
+    {
+        AuthAdmin("987654321","123456789");
+        TestExpectedActual(_expErrorEmtyNumber,"Пользователь не найден");
+        Screenshot("Пользователь не найден");
     }
     [Test]
     public void FindBuyer()
     {
         AuthAdmin(_numberAdmin,_passwordAdmin);
         FindBuyerAdmin(_newBuyer);
+        if (driver.FindElements(_exClientTab).Count != 0)
+        {
+            if (driver.FindElement(_exClientTab).Text == "В таблице отсутствуют данные")
+            {
+                Screenshot("В таблице данные отсутствуют");
+                return;
+            }
+        }
+        Screenshot("Искомый покупатель");
+        TestExpectedActual((By.XPath("//td")), 8, $"+99{_newBuyer}");
+        
     }
     [Test]
     public void Scoring()
     {
         AuthAdmin(_numberAdmin,_passwordAdmin);
         FindBuyerAdmin(_newBuyer);
+        if (driver.FindElements(_exClientTab).Count != 0)
+        {
+            if (driver.FindElement(_exClientTab).Text == "В таблице отсутствуют данные")
+            {
+                Screenshot("В таблице данные отсутствуют");
+                return;
+            }
+        }
+        Thread.Sleep(1000);
+        driver.FindElements(By.XPath("//tbody"))[0].Click();
         Thread.Sleep(2000);
         driver.ExecuteJavaScript("window.scrollTo(0,300)");
         if (driver.FindElements(_btnModerate).Count!=0)//если клиент не верифицирован
@@ -69,7 +108,7 @@ public class AdminTests:Overloads
         {
             Click(_btnScoring);
            
-            Thread.Sleep(2000);
+            Thread.Sleep(5000);
             Screenshot("Скоринг начался");
             return;
         }
@@ -92,7 +131,6 @@ public class AdminTests:Overloads
         driver.FindElements(_listSideBarMenu)[24].Click();
         driver.FindElements(_fieldSearchClient)[1].SendKeys(number);
         Click(_btnSearchClient);
-        Thread.Sleep(1000);
-        driver.FindElements(By.XPath("//tbody"))[0].Click();
+        
     }
 }

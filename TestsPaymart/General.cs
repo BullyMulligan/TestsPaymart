@@ -4,7 +4,7 @@ public class General:Global
 {
     
     //
-    protected string _numberFoundContract = "6";
+    protected string _numberFoundContract = "4";
     protected readonly By _fieldFoundContract = By.XPath("//input[@type='text']");
     protected readonly By _btnFoundContract = By.XPath("//button[@type='submit']");
     protected readonly By _btnReasonCancelContract = By.XPath("//form[@enctype='multipart/form-data']//button[@type='submit']");
@@ -27,7 +27,7 @@ public class General:Global
     //New contract
     protected readonly By _fieldNumberBuyerNewContract = By.XPath("//div//input[@required='required']");
     protected readonly By _windowAccertNumber = By.XPath("//div//a[@class='dropdown-item']");
-    protected readonly By _windowUserNotFound = By.XPath("//div[@class='dropdown-menu show user-info-dropdown']/div");
+    protected readonly By _windowUserNotFound = By.XPath("//a[@class='dropdown-item']");
     protected readonly By _exNumberBuyer =By.XPath("//div[@class='font-weight-normal mb-2']");
     protected readonly By _btnActionCategory = By.XPath("//div[@bg-color='grey']");
     protected readonly By _selectProductCategory = By.XPath("//ul[@class='multiselect__content']/li");
@@ -36,7 +36,10 @@ public class General:Global
     protected readonly By _exContractIsCreated = By.XPath("//div[@class='mb-2']");
     protected readonly By _btnCreateContract = By.Id("submitOrder");
     
-
+    //Cancel contract
+    protected readonly By _btnContractCancel = By.XPath("//button[@class='btn btn-orange text-white modern-shadow mt-3 mx-auto w-100 px-5 py-3']");
+    protected readonly By _exStatusContract = By.XPath("//div[@class='col-12 col-md-4 pr-0']//div");
+   
 
     protected readonly By _listCatalogTitleRight = By.XPath("//div[@class='title-right']//a");
     protected readonly By _exFieldsErrors = By.XPath("//span[@class='validation-error']");
@@ -103,4 +106,5 @@ public class General:Global
     protected readonly By _btnScoring =By.XPath("//button[@style='cursor: pointer;']");
     protected readonly By _exStatusScoring = By.XPath("//td[@style='text-align: left;']");
     protected readonly By _exScoringIsPassed = By.XPath("//table[@class='table']//th");
+    protected readonly By _exClientTab = By.XPath("//td[@valign='top']");
 }
